@@ -27,9 +27,6 @@ function inicializa(){
     const imageAlienLevel3 = new Image();
     imageAlienLevel3.src = "./images/shipGreen_manned.png";
 
-    const imageAlienBoss = new Image();
-    imageAlienBoss.src = "";
-
     const imageLaserShooter = new Image();
     imageLaserShooter.src = "./images/laserRed01.png";
 
@@ -41,6 +38,9 @@ function inicializa(){
 
     const imageBlock = new Image();
     imageBlock.src = "./images/block3.svg";
+
+    const imageAlienBoss = new Image();
+    imageAlienBoss.src = "./images/ufoYellow.png";
 
     const fontName = "Orbitron";
 

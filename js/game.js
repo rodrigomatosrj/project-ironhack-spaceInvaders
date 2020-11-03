@@ -5,6 +5,7 @@ class Game{
         this.backGround = backGround;
         this.title = title;
         this.font = fontName;
+        this.alienBoss = [];
         this.new();
     }
 
@@ -38,6 +39,27 @@ class Game{
        
         this.ctx.drawImage(this.backGround,0,0,this.canvas.width,this.canvas.height);
        
+        if(this.alienBoss.length){
+            this.alienBoss[0].move(-4);
+            if(this.alienBoss[0].x > 0){
+                if(this.shooter.shots.length){
+                    if(this.alienBoss[0].isCrashedWith(this.shooter.shots[0])){
+                        this.alienBoss[0] = null;
+                        this.alienBoss.pop();
+                        this.shooter.shots[0] = null;
+                        this.shooter.shots.pop();
+                        this.points += 100;
+                    }else{
+                        this.ctx.drawImage(this.alienBoss[0].image,this.alienBoss[0].x,this.alienBoss[0].y,this.alienBoss[0].width,this.alienBoss[0].height);
+                    }
+                }else{
+                    this.ctx.drawImage(this.alienBoss[0].image,this.alienBoss[0].x,this.alienBoss[0].y,this.alienBoss[0].width,this.alienBoss[0].height);    
+                }
+            }else{
+                this.alienBoss[0] = null;
+                this.alienBoss.pop();
+            }
+        }
 
 
         for(let i=0;i< this.shooter.lifes;i++){
@@ -53,23 +75,6 @@ class Game{
             element.move();
             this.ctx.drawImage(element.image,element.x,element.y);
         });
-
-    // this.shield.shields.forEach((shield,idxShield)=>{      
-    //     shield.forEach((block,idxBlock)=>{  
-    //         this.horde.shots.forEach((shot,idxShot)=>{     
-    //             if(block.isCrashedWith(shot)){
-    //                 this.shield.shields[idxShield].splice(idxBlock,1);
-    //                 //block = null;
-    //                 this.horde.shots.splice(idxShot,1);
-    //                 shot = null;
-    //             }else{
-    //                 this.ctx.drawImage(imageBlock,block.x,block.y,block.width,block.height); 
-    //             }    
-    //         });
-    //     });        
-    // });
-
-
 
        this.shield.shields.forEach((shield,idxShield)=>{      
             shield.forEach((block,idxBlock)=>{  
@@ -173,6 +178,10 @@ class Game{
             this.horde.fire();
        } 
 
+       if(!(this.frame % 1200)){
+            this.alienBoss.push(new AlienBoss(this.canvas.width,80,imageAlienBoss,100));
+       }
+
         this.intervalId = requestAnimationFrame(update);
     
         this.isGameOver();
@@ -193,6 +202,16 @@ class Game{
 
     gameOver(){
         cancelAnimationFrame(this.intervalId);
+        this.ctx.drawImage(this.backGround,0,0,this.canvas.width,this.canvas.height);
+        this.ctx.fillStyle = "#FFFF00";
+        this.ctx.font = "normal 80px Orbitron";
+        this.ctx.fillText("Game Over",150,100);
+        this.ctx.font = "normal 40px Orbitron";
+        this.ctx.fillText(`Your Score: ${this.points.toString().padStart(6,"0")}`,160,200);
+
+
+
+
     }
 
 }

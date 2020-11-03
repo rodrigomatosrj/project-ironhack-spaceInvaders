@@ -49,3 +49,22 @@ class Alien {
    
 
 }
+
+class AlienBoss extends Alien {
+
+    isCrashedWith(obstacle) {
+        const condition = !(
+        this.bottom() < obstacle.top() ||
+        this.top() > obstacle.bottom() ||
+        this.right() < obstacle.left() ||
+        this.left() > obstacle.right()
+        );
+
+        return condition;
+    }
+
+
+    move(speed){
+        this.x +=speed;        
+        }
+}
