@@ -1,9 +1,9 @@
 class Block {
-    constructor(x){
-        this.width = 10;
-        this.height = 10;
+    constructor(x,y){
+        this.width = 30;
+        this.height = 30;
         this.x = x;
-        this.y = 570;
+        this.y = y;
     }
 
      left() {
@@ -35,17 +35,20 @@ class Block {
 }
 
 class Shield {
-    constructor(x){
+    constructor(x,y){
         this.x = 0;
         this.y = 0;
         this.shields = [];
-        this.shields.push(this.constructShield(x));
+        this.shields.push(this.constructShield(x,y));
     }
 
-    constructShield(inicial){
+    constructShield(inicial,y){
         let shield = [];
-        for(let i = 0; i<10;i++){
-            shield.push(new Block(inicial+(10*i)));
+        for(let i = 0; i<5;i++){
+            shield.push(new Block(inicial+(30*i),y));
+        }
+        for(let i = 0; i<5;i++){
+            shield.push(new Block(inicial+(30*i),y+30));
         }
         return shield;
     }

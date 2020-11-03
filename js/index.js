@@ -39,6 +39,9 @@ function inicializa(){
     const imageLaserAlien = new Image();
     imageLaserAlien.src = "./images/laserBlue03.png";
 
+    const imageBlock = new Image();
+    imageBlock.src = "./images/block3.svg";
+
     const fontName = "Orbitron";
 
     window.addEventListener('load', ()=>{

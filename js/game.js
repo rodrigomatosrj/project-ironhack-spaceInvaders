@@ -29,13 +29,17 @@ class Game{
    start(imageShooter){
         this.shooter = new Shooter(imageShooter,(this.canvas.width-50)/2,this.canvas.height-60);
         this.horde = new Horde();
-        this.shield = new Shield(50);
+        this.shield = new Shield(120,530);
         this.update();
     }
     update(){
         this.frame++;
         this.shooter.move();
+       
         this.ctx.drawImage(this.backGround,0,0,this.canvas.width,this.canvas.height);
+       
+
+
         for(let i=0;i< this.shooter.lifes;i++){
             this.ctx.drawImage(this.shooter.image,this.canvas.width-i*40,20,25,25);
         }
@@ -50,18 +54,30 @@ class Game{
             this.ctx.drawImage(element.image,element.x,element.y);
         });
 
-    this.shield.shields[0].forEach((shield,idxShield)=>{
-      this.horde.shots.forEach((shot,idxShot)=>{     
-            if(shield.isCrashedWith(shot)){
-                this.shield.shields[0].splice(idxShield,1);
-                //shield = null;
-                this.horde.shots.splice(idxShot,1);
-                shot = null;
-            }else{
+    this.shield.shields.forEach((shield,idxShield)=>{
+        shield.forEach((block,idxBlock)=>{
+            let draw = false;
+            this.horde.shots.forEach((shot,idxShot)=>{     
+                if(block.isCrashedWith(shot)){
+                    this.shield.shields[idxShield].splice(idxBlock,1);
+                    block = null;
+                    this.horde.shots.splice(idxShot,1);
+                    shot = null;
+                }else{
+                    draw = true;
+                }
+            });
+            if(draw){
                 this.ctx.drawImage(imageLaserShooterFailed,shield.x,shield.y,shield.width,shield.height);  
             }
         });
-    });
+
+    });   
+
+
+
+
+
 
 
         this.horde.shots.forEach((element,index)=>{
