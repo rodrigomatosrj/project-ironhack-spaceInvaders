@@ -1,0 +1,23 @@
+@font-face {
+    font-family: 'Orbitron';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Orbitron'),
+    url('../Orbitron-VariableFont_wght.ttf') format("truetype");
+}
+
+*{
+    font-family: 'Orbitron';
+    margin: 0;
+    padding: 0;
+}
+
+canvas {
+    border: 2px solid red;
+}
+
+div {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
