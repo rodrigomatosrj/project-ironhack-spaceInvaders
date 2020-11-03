@@ -29,7 +29,7 @@ class Game{
    start(imageShooter){
         this.shooter = new Shooter(imageShooter,(this.canvas.width-50)/2,this.canvas.height-60);
         this.horde = new Horde();
-        this.shield = new Shield(120,530);
+        this.shield = new Shield(120,500);
         this.update();
     }
     update(){
@@ -54,25 +54,64 @@ class Game{
             this.ctx.drawImage(element.image,element.x,element.y);
         });
 
-    this.shield.shields.forEach((shield,idxShield)=>{
-        shield.forEach((block,idxBlock)=>{
-            let draw = false;
-            this.horde.shots.forEach((shot,idxShot)=>{     
-                if(block.isCrashedWith(shot)){
-                    this.shield.shields[idxShield].splice(idxBlock,1);
-                    block = null;
-                    this.horde.shots.splice(idxShot,1);
-                    shot = null;
-                }else{
-                    draw = true;
+    // this.shield.shields.forEach((shield,idxShield)=>{      
+    //     shield.forEach((block,idxBlock)=>{  
+    //         this.horde.shots.forEach((shot,idxShot)=>{     
+    //             if(block.isCrashedWith(shot)){
+    //                 this.shield.shields[idxShield].splice(idxBlock,1);
+    //                 //block = null;
+    //                 this.horde.shots.splice(idxShot,1);
+    //                 shot = null;
+    //             }else{
+    //                 this.ctx.drawImage(imageBlock,block.x,block.y,block.width,block.height); 
+    //             }    
+    //         });
+    //     });        
+    // });
+
+
+
+       this.shield.shields.forEach((shield,idxShield)=>{      
+            shield.forEach((block,idxBlock)=>{  
+                let draw = true;
+                if(block){         
+                    this.horde.shots.forEach((shot,idxShot)=>{     
+                        if(block.isCrashedWith(shot)){
+                            this.shield.shields[idxShield].splice(idxBlock,1);
+                            //block = null;
+                            this.horde.shots.splice(idxShot,1);
+                            shot = null;
+                            draw = false;
+                        }    
+                    });
+                }
+                if(block){
+                    this.shooter.shots.forEach((element)=>{
+                        if(block.isCrashedWith(element)){
+                            this.shield.shields[idxShield].splice(idxBlock,1);
+                            //block = null;
+                            this.shooter.shots.pop();
+                            element = null;
+                            draw = false;
+                        }
+                    });
+                }
+                if(block){
+                    this.horde.aliens.forEach((line,idx)=>{
+                        line.forEach((alien,index)=>{
+                            if(block.isCrashedWith(alien)){
+                                this.shield.shields[idxShield].splice(idxBlock,1);
+                                //block = null;
+                                draw = false;   
+                            }
+                        });
+                    });
+                }
+                if(draw){
+                    this.ctx.drawImage(imageBlock,block.x,block.y,block.width,block.height);  
                 }
             });
-            if(draw){
-                this.ctx.drawImage(imageLaserShooterFailed,shield.x,shield.y,shield.width,shield.height);  
-            }
-        });
-
-    });   
+        }); 
 
 
 
@@ -80,7 +119,7 @@ class Game{
 
 
 
-        this.horde.shots.forEach((element,index)=>{
+    this.horde.shots.forEach((element,index)=>{
             if(element.isCrashedWith(this.shooter)){
                 this.ctx.drawImage(imageLaserShooterFailed,this.shooter.x+10,this.shooter.y,40,40);                
                 if(this.shooter.lifes--){
@@ -126,6 +165,8 @@ class Game{
         });
         
         this.horde.move();
+        
+
         
 
        if(!(this.frame % 120)){

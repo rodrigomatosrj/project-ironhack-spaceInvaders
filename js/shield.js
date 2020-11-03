@@ -40,6 +40,9 @@ class Shield {
         this.y = 0;
         this.shields = [];
         this.shields.push(this.constructShield(x,y));
+        this.shields.push(this.constructShield(x+200,y));
+        this.shields.push(this.constructShield(x+400,y));
+
     }
 
     constructShield(inicial,y){
