@@ -10,6 +10,14 @@ class Game{
     }
 
     new(){
+
+        const storage = localStorage;
+        this.highScore = 0;
+        if(storage.getItem("highScore")){
+            this.highScore = storage.getItem("highScore");
+        }else{
+            storage.setItem("highScore",0)
+        }
         this.intervalId = 0;
         this.horde = [];
         this.frame = 0;
@@ -56,9 +64,16 @@ class Game{
        
         if(this.alienBoss.length){
             this.alienBoss[0].move(-4);
-            if(this.alienBoss[0].x > 0){
+            if(this.alienBoss[0].x > -10){
                 if(this.shooter.shots.length){
                     if(this.alienBoss[0].isCrashedWith(this.shooter.shots[0])){
+                        this.ctx.drawImage(imageLaserShooterFailed,this.alienBoss[0].x ,this.alienBoss[0].y ,this.alienBoss[0].width,this.alienBoss[0].height);
+                        audioBoss.pause();
+                        audioAlienExplosion.pause();
+                        audioAlienExplosion.currentTime = 0;
+                        audioAlienExplosion.play();
+                        
+                        
                         this.alienBoss[0] = null;
                         this.alienBoss.pop();
                         this.shooter.shots[0] = null;
@@ -72,6 +87,7 @@ class Game{
                     this.ctx.drawImage(this.alienBoss[0].image,this.alienBoss[0].x,this.alienBoss[0].y,this.alienBoss[0].width,this.alienBoss[0].height);    
                 }
             }else{
+                audioBoss.pause();
                 this.alienBoss[0] = null;
                 this.alienBoss.pop();
             }
@@ -82,9 +98,10 @@ class Game{
             this.ctx.drawImage(this.shooter.image,this.canvas.width-i*40,20,25,25);
         }
 
-
-
-        this.ctx.fillText(this.points.toString().padStart(6,"0"),this.canvas.width-300,48);
+        this.ctx.font = "30px Orbitron";
+        this.ctx.fillText(`Highscore: ${this.highScore.toString().padStart(6,"0")}`,10,40);
+        this.ctx.fillText(this.points.toString().padStart(6,"0"),this.canvas.width-250,40);
+            this.ctx.font = "40px Orbitron";
         this.ctx.drawImage(this.shooter.image,this.shooter.x,this.shooter.y,this.shooter.width,this.shooter.height);
     
         this.shooter.shots.forEach((element)=>{
@@ -185,6 +202,7 @@ class Game{
 
         if(this.horde.count()=== 0){
             this.horde.new(this.horde.speed *= 2);
+            this.update();
         }
 
         this.horde.shots.forEach(element=>{
@@ -203,7 +221,10 @@ class Game{
 
        if(!(this.frame % 1200)){
             this.alienBoss.push(new AlienBoss(this.canvas.width,80,imageAlienBoss,100));
-       }
+            audioBoss.pause();
+            audioBoss.currentTime = 0;
+            audioBoss.play();
+        }
 
         this.intervalId = requestAnimationFrame(update);
     
@@ -216,6 +237,7 @@ class Game{
             this.gameOver();
         }
         if(this.shooter.top() === this.horde.bottom()){
+            this.shooter.lifes = 0;
             this.gameOver();
         }
 
@@ -225,6 +247,11 @@ class Game{
 
     gameOver(){
         cancelAnimationFrame(this.intervalId);
+
+        if(this.points > this.highScore){
+            let storage = localStorage;
+             storage.setItem("highScore",this.points);
+        }
         this.ctx.drawImage(this.backGround,0,0,this.canvas.width,this.canvas.height);
         this.ctx.fillStyle = "#FFFF00";
         this.ctx.font = "normal 80px Orbitron";
@@ -232,13 +259,15 @@ class Game{
         this.ctx.font = "normal 40px Orbitron";
         this.ctx.fillText(`Your Score: ${this.points.toString().padStart(6,"0")}`,160,200);
         this.ctx.font = "normal 25px Orbitron";
-        let level1 = this.down.reduce((acc,item)=> item===10?acc+1:acc+0,0);
-        let level2 = this.down.reduce((acc,item)=> item===20?acc+1:acc+0,0);
-        let level3 = this.down.reduce((acc,item)=> item===30?acc+1:acc+0,0);
-        let boss = this.down.reduce((acc,item)=> item===100?acc+1:acc+0,0);
-        let shotacc = (level1+level2+level3+boss)/this.shotsNumber;
-
-
+    
+            let level1 = this.down.reduce((acc,item)=> item===10?acc+1:acc+0,0);
+            let level2 = this.down.reduce((acc,item)=> item===20?acc+1:acc+0,0);
+            let level3 = this.down.reduce((acc,item)=> item===30?acc+1:acc+0,0);
+            let boss = this.down.reduce((acc,item)=> item===100?acc+1:acc+0,0);
+            let shotacc = 0;  
+            if(this.shotsNumber){
+                shotacc = (level1+level2+level3+boss)/this.shotsNumber; 
+            }
         this.ctx.drawImage(imageAlienBoss,280,280,30,30);
         this.ctx.drawImage(imageAlienLevel3,280,330,30,30);
         this.ctx.drawImage(imageAlienLevel2,280,380,30,30);

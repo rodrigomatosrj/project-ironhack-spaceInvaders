@@ -5,6 +5,7 @@ function inicializa(){
     return true;
 }
 
+ 
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext('2d');
 
@@ -57,6 +58,9 @@ function inicializa(){
     const audioAlienExplosion = new Audio();
     audioAlienExplosion.src = "./audio/explosion.wav";
 
+    const audioBoss = new Audio();
+    audioBoss.src = "./audio/space1.mp3"
+
     const fontName = "Orbitron";
 
     window.addEventListener('load', ()=>{
@@ -66,7 +70,9 @@ function inicializa(){
         document.addEventListener("keydown",(event)=>{
             switch(event.key){
                 case "Enter":
-                    game.start(imageShooter);
+                    if(game.frame ===0){
+                        game.start(imageShooter);
+                    }
                     break;
                 case "ArrowLeft":
                     game.shooter.goLeft();
@@ -81,8 +87,10 @@ function inicializa(){
                     game.shooter.stop();
                     break;    
                 case " ":
-                    game = new Game(canvas,ctx,imageBackground,imageTitle,fontName);
-                    game.splashScreen();
+                    if(!game.shooter.lifes){
+                        game = new Game(canvas,ctx,imageBackground,imageTitle,fontName);
+                        game.splashScreen();
+                    }    
                     break;
                 default:
                     return;            

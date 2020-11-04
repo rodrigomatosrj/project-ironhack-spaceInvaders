@@ -80,10 +80,13 @@ class Horde {
     fire(){
         let line = Math.floor(Math.random()*this.aliens.length);
         let col = Math.floor(Math.random()*this.aliens[line].length);
-        //alert(line+"\/"+col);
-        if(this.aliens[line][col]){
-            let alien = this.aliens[line][col];
-            this.shots.push(alien.fire());
+
+        for(let i = 0; i <= line; i++){
+            if(this.aliens[i][col]){
+                let alien = this.aliens[i][col];
+                this.shots.push(alien.fire());
+                break;
+            }
         }
     }
 
