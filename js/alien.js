@@ -44,6 +44,9 @@ class Alien {
     }
 
     fire(){
+        audioAlienShot.pause();
+        audioAlienShot.currentTime = 0;
+        audioAlienShot.play();
         return new Bullet((this.x+this.width/2)-3,this.y+this.height,1,imageLaserAlien);
     }
    

@@ -42,6 +42,21 @@ function inicializa(){
     const imageAlienBoss = new Image();
     imageAlienBoss.src = "./images/ufoYellow.png";
 
+    const imageKeyboard = new Image();
+    imageKeyboard.src = "./images/keyboard.png";
+
+    const audioShooter = new Audio();
+    audioShooter.src =  "./audio/FX061.mp3";
+
+    const audioAlienShot = new Audio();
+    audioAlienShot.src = "./audio/FX064.mp3";
+
+    const audioShooterExplosion = new Audio();
+    audioShooterExplosion.src = "./audio/Explosion.mp3";
+
+    const audioAlienExplosion = new Audio();
+    audioAlienExplosion.src = "./audio/explosion.wav";
+
     const fontName = "Orbitron";
 
     window.addEventListener('load', ()=>{
@@ -66,7 +81,8 @@ function inicializa(){
                     game.shooter.stop();
                     break;    
                 case " ":
-                    game.shooter.fire();
+                    game = new Game(canvas,ctx,imageBackground,imageTitle,fontName);
+                    game.splashScreen();
                     break;
                 default:
                     return;            
