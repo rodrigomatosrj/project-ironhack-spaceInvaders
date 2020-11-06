@@ -42,7 +42,7 @@ class Shooter {
             audioShooter.pause();
             audioShooter.currentTime = 0;
             audioShooter.play();
-            this.shots[0] = new Bullet((this.x+this.width/2)-5,this.y-54,-5,imageLaserShooter);
+            this.shots[0] = new Bullet((this.x+this.width/2)-5,this.y-54,-8,imageLaserShooter);
             game.shotsNumber++;
         }
 
