@@ -1,4 +1,4 @@
-[](https://rodrigomatosrj.github.io/project-ironhack-spaceInvaders/images/title.png)
+![](https://rodrigomatosrj.github.io/project-ironhack-spaceInvaders/images/title.png)
 
 ## About
 
