@@ -48,11 +48,19 @@ function inicializa(){
 
     const audioShooter = new Audio();
     audioShooter.src =  "./audio/FX061.mp3";
+<<<<<<< HEAD
     audioShooter.volume = 0.5;
 
     const audioAlienShot = new Audio();
     audioAlienShot.src = "./audio/FX064.mp3";
     audioAlienShot.volume = 0.5;
+=======
+    audioShooter.volume = 0.2;
+
+    const audioAlienShot = new Audio();
+    audioAlienShot.src = "./audio/FX064.mp3";
+    audioAlienShot.volume = 0.7;
+>>>>>>> master
 
     const audioShooterExplosion = new Audio();
     audioShooterExplosion.src = "./audio/Explosion.mp3";
@@ -60,10 +68,17 @@ function inicializa(){
 
     const audioAlienExplosion = new Audio();
     audioAlienExplosion.src = "./audio/explosion.wav";
+<<<<<<< HEAD
     audioAlienExplosion.volume = 0.5;
 
     const audioBoss = new Audio();
     audioBoss.src = "./audio/space1.mp3"
+=======
+    audioAlienExplosion.volume = 0.1;
+
+    const audioBoss = new Audio();
+    audioBoss.src = "./audio/space1.mp3";
+>>>>>>> master
     audioBoss.volume = 0.5;
 
     const fontName = "Orbitron";
